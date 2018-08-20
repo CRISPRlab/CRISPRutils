@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+# << Matt Nethery Aug 2018 >> #
 # USAGE: to use on xml results from a cmd line BLAST using -outfmt 5
 #		blast_parser.py [-f blast.xml - required] 
 #						[-c/--clean (True/False) - optional] 

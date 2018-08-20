@@ -1,4 +1,6 @@
 #!/bin/bash
+
+# << Matt Nethery Aug 2018 >> #
 #USAGE: 
 	# append_spacers.sh 
 	# appends all files in current directory with filename *_spacers.fa* into spacers_concat.fasta
