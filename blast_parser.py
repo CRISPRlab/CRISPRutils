@@ -151,7 +151,7 @@ if args.clean :
 if args.predict :
 
 	#begin entrez seq downloads by accession #
-	Entrez.email = "manether@ncsu.edu"
+	Entrez.email = ""
 	Entrez.tool = "BlastParser.py"
 	
 	outputFile = open('pam_predict_spacer_list.fa', 'w')
