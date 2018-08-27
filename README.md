@@ -100,7 +100,7 @@ blast_parser.py -ct -f matches.xml
 ```
 blast_parser.py -ctpx -f matches.xml
 ```
-The **-p(x)** option generates a **spacer alignment file** (pam_predict_spacer_list.fa) containing aligned spacers with their corresponding flanks, and a **flank alignment file** (pam_predict_flanks.fa), in which the spacer sequence has been removed and replaced with --. Open these files in an alignment visualization tool, like [IGV](http://software.broadinstitute.org/software/igv/) or [Geneious](https://www.geneious.com/).
+The **-p(x)** option generates a **spacer alignment file** (pam_predict_spacer_list.fa) containing aligned spacers with their corresponding flanks, and a **flank alignment file** (pam_predict_flanks.fa), in which the spacer sequence has been removed and replaced with --, for easier flank alignment. Open these files in an alignment visualization tool, like [IGV](http://software.broadinstitute.org/software/igv/) or [Geneious](https://www.geneious.com/).
 
 Flank alignment file example:</br>
 <img src="https://github.com/CRISPRlab/CRISPRutils/blob/master/img/PAM.png" width="400">
