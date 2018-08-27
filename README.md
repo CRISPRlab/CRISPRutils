@@ -84,19 +84,19 @@ First, run a BLAST query using [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi
 ```
 blastn -query spacers_concat.fasta -out matches.xml -evalue 1e-3 -remote -db env_nt -outfmt 5
 ```
-*outputs: **matches.xml** file*
+*outputs: **matches.xml** file*<br/><br/>
 
-1. Convert the XML results to CSV using the **-c** (clean) option.
+**1.** Convert the XML results to CSV using the **-c** (clean) option.
 ```
 blast_parser.py -c -f matches.xml
 ```
 
-2. Convert XML results to CSV and remove BLAST matches not containing the text 'phage, plasmid, bacteriophage, or prophage' (**-t** option).
+**2.** Convert XML results to CSV and remove BLAST matches not containing the text 'phage, plasmid, bacteriophage, or prophage' (**-t** option).
 ```
 blast_parser.py -ct -f matches.xml
 ```
 
-3. Predict the PAM sequence from spacer hits (**-p** option; use **-x** if the blastn query was run using the -remote flag. If not, only use the -p option).
+**3.** Predict the PAM sequence from spacer hits (**-p** option; use **-x** if the blastn query was run using the -remote flag. If not, only use the -p option).
 ```
 blast_parser.py -ctpx -f matches.xml
 ```
