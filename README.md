@@ -60,6 +60,8 @@ Parses returned BLAST hits into CSV format, and assists in PAM prediction by fet
 
 **Important Note:** when using this script to predict the PAM sequence (-p option), we use Entrez to access genomes via Accession number. Please read [NCBI's Entrez user requirements](https://www.ncbi.nlm.nih.gov/books/NBK25497/#chapter2.Usage_Guidelines_and_Requiremen) prior to use. At minimum, please modify **blast_parser.py at line 155** with the addition of your **email address**. NCBI will attempt to contact you before killing (or banning) your jobs in cases of overuse or abuse. Otherwise, your job(s) could be killed without warning. Providing a fake email address is seriously frowned upon, so please don't do it. Other recommended usage parameters: For any series of more than 100 requests, please do this on the weekend or outside peak times in the USA.  
 
+**Additionally:** this script does not take locus orientation into account, so manual verification that all spacers are in the **same orientation** is essential. 
+
 #### Usage
 
 `blast_parser.py -h`
@@ -79,24 +81,24 @@ Options:
 ```
 
 ### Examples
-First, run a BLAST query using [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download), setting the output format to XML (-outfmt 5).
+First, confirm all spacers are in the same orientation, then run a BLAST query using [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download), setting the output format to XML (-outfmt 5).
 
 ```
-blastn -query spacers_concat.fasta -out matches.xml -evalue 1e-3 -remote -db env_nt -outfmt 5
+blastn -query spacers_concat.fasta -out matches.xml -evalue 1e-3 -remote -db nt -outfmt 5
 ```
 *outputs: **matches.xml** file*<br/><br/>
 
-**1.** Convert the XML results to CSV using the **-c** (clean) option.
+**Ex 1.** Convert the XML results to CSV using the **-c** (clean) option.
 ```
 blast_parser.py -c -f matches.xml
 ```
 
-**2.** Convert XML results to CSV and remove BLAST matches not containing the text 'phage, plasmid, bacteriophage, or prophage' (**-t** option).
+**Ex 2.** Convert XML results to CSV and remove BLAST matches not containing the text 'phage, plasmid, bacteriophage, or prophage' (**-t** option).
 ```
 blast_parser.py -ct -f matches.xml
 ```
 
-**3.** Predict the PAM sequence from spacer hits (**-p** option; use **-x** if the blastn query was run using the -remote flag. If not, only use the -p option).
+**Ex 3.** Predict the PAM sequence from spacer hits (**-p** option; use **-x** if the blastn query was run using the -remote flag. If not, only use the -p option).
 ```
 blast_parser.py -ctpx -f matches.xml
 ```
