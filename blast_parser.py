@@ -6,7 +6,7 @@
 #						[-c/--clean (True/False) - optional] 
 #						[-t/--trim (True/False) - optional (removes lines not matching inclusionText: used with -c)]
 #						[-p/--predict (True/False) - optional] 
-#						[-x/--remote results - to use when BLAST results were obtained against a remote database]
+#						[-l/--local results - to use when BLAST results were obtained against a local database]
 #						
 
 
@@ -24,10 +24,12 @@ import os
 import os.path
 import Bio
 import warnings
+import time
 
 # parse input arguments #
 parser = argparse.ArgumentParser(description='BlastParser by Matt Nethery')
 parser.add_argument('-f','--inputFile', help='Input xml filename',required=True)
+parser.add_argument('-o','--outDir', help='Output file directory | Dont include forwardslash',required=False)
 parser.add_argument('-c','--clean', dest='clean', action='store_true')
 parser.set_defaults(clean=False)
 parser.add_argument('-t','--trim', dest='trim', action='store_true')
@@ -36,8 +38,8 @@ parser.add_argument('-p','--predict', dest='predict', action='store_true')
 parser.set_defaults(predict=False)
 parser.add_argument('-r','--rev_comp', dest='rev_comp', action='store_true')
 parser.set_defaults(rev_comp=False)
-parser.add_argument('-x','--remote', dest='remote', action='store_true')
-parser.set_defaults(remote=False)
+parser.add_argument('-l','--local', dest='local', action='store_true')
+parser.set_defaults(local=False)
 args = parser.parse_args()
 
 # in some cases packages were compiled against an older numpy than is installed #
@@ -56,6 +58,8 @@ inclusionText = [
 					, "phage"
 					, "bacteriophage"
 					, "prophage"
+					, "virus"
+					, "provirus"
 				]
 
 ## global vars ##
@@ -90,10 +94,9 @@ if args.clean :
 		#hits:
 		hits = []
 		for alignment in blast_record.alignments :
-			# tmpDict = {'match' : alignment.title}
 
 
-			if args.remote:
+			if args.local == False:
 				### for traditional remote blasts against nt/nr ###
 				splitArr = alignment.title.split("|")
 				accession = splitArr[3]
@@ -101,10 +104,11 @@ if args.clean :
 				tmpDict = {'accession' : accession, 
 							'accessionDesc' : hitDesc}
 			else:
-				### for local blasts against db's you built locally: ###
-				tmpDict = {'accession' : alignment.title.split("|")[3], 
-						'accessionDesc' : alignment.title}
-					
+				### for local blasts against db's built locally: ###
+				tmpDict = {
+						'accession' : alignment.title.split("|")[2], 
+						'accessionDesc' : alignment.title
+						}
 	
 			if args.trim :
 				if not any(x in tmpDict['accessionDesc'] for x in inclusionText) :
@@ -145,7 +149,6 @@ if args.clean :
 				masterList.append(masterDict)
 		
 	
-	# pprint(masterList)
 	outputFile.close()
 
 
@@ -155,8 +158,14 @@ if args.predict :
 	Entrez.email = ""
 	Entrez.tool = "BlastParser.py"
 	
-	outputFile = open('pam_predict_spacer_list.fa', 'w')
-	flankFile = open('pam_predict_flanks.fa', 'w')
+	if args.outDir:
+		if not os.path.exists(args.outDir):
+			os.mkdir(args.outDir)
+		outputFile = open(args.outDir+'/pam_predict_spacer_list.fa', 'a')
+		flankFile = open(args.outDir+'/pam_predict_flanks.fa', 'a')
+	else :
+		outputFile = open('pam_predict_spacer_list.fa', 'a')
+		flankFile = open('pam_predict_flanks.fa', 'a')
 	
 	#import csv results and serialze
 	fileRef = args.inputFile + '.tab.hits.csv'
@@ -169,6 +178,8 @@ if args.predict :
 		print(query)
 		if query in queryList: # prevent duplicates
 			continue
+
+		time.sleep(0.3) ## Fix error where we're sending too many requests through NCBI's eUtilities ##
 
 		queryList.append(query)
 
