@@ -107,7 +107,9 @@ blast_parser.py -ct -f matches.xml
 ```
 blast_parser.py -ctp -f matches.xml
 ```
-The **-p(x)** option generates a **spacer alignment file** (pam_predict_spacer_list.fa) containing aligned spacers with their corresponding flanks, and a **flank alignment file** (pam_predict_flanks.fa), in which the spacer sequence has been removed and replaced with --, for easier flank alignment. Open these files in an alignment visualization tool, like [IGV](http://software.broadinstitute.org/software/igv/) or [Geneious](https://www.geneious.com/).
+The **-p** option generates a **spacer alignment file** (pam_predict_spacer_list.fa) containing aligned spacers with their corresponding flanks, and a **flank alignment file** (pam_predict_flanks.fa), in which the spacer sequence has been removed and replaced with --, for easier flank alignment. Open these files in an alignment visualization tool, like [IGV](http://software.broadinstitute.org/software/igv/) or [Geneious](https://www.geneious.com/).
+
+**Note:** the **-p** option can only be used with blast queries that have been run against NCBI's databases (the blast query was used with the -remote flag). PAMs are predicted using accession numbers, which are predictably returned from NCBI blast queries. An additional script for finding PAMs from local blast queries is in the works.
 
 Flank alignment file example:</br>
 <img src="https://github.com/CRISPRlab/CRISPRutils/blob/master/img/PAM.png" width="400">
@@ -116,4 +118,4 @@ Flank alignment file example:</br>
 
 
 ### Pro Tip
-The **CSV** file created using the **-c** option can be **modified manually**. Open the CSV file in your text editor of choice, then delete any rows with BLAST hits not to your liking (organisms you want to exclude, etc.). Make sure to save the file when complete, but do not rename it. Then run blast_parser.py with the **-p(x)** options. It will pickup the CSV file changes and search Entrez accordingly.
+The **CSV** file created using the **-c** option can be **modified manually**. Open the CSV file in your text editor of choice, then delete any rows with BLAST hits not to your liking (organisms you want to exclude, etc.). Make sure to save the file when complete, but do not rename it. Then run blast_parser.py with the **-p** options. It will pickup the CSV file changes and search Entrez accordingly.
