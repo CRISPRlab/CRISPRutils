@@ -37,7 +37,7 @@ append_spacers.sh
 Parses returned BLAST hits into CSV format, and assists in PAM prediction by fetching flanking regions from [Entrez](https://www.ncbi.nlm.nih.gov/Class/MLACourse/Original8Hour/Entrez/) by each BLAST hit's Accession number.
 
 #### Software Requirements
-- **Python** >= 2.7 or 3 AND **pip** (install pip for Python 2 and pip3 for Python 3)
+- **Python** >= 3 AND **pip** (install pip3 for Python 3)
   - Mac - using homebrew:
 
    `brew install python`
