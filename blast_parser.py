@@ -16,7 +16,6 @@ from os import walk
 from pprint import pprint
 from Bio import Entrez
 from Bio import SeqIO
-from Bio.Alphabet import generic_dna
 from Bio.Seq import Seq
 import argparse
 import pandas
@@ -208,12 +207,12 @@ if args.predict :
 			protospacer = protoSeq[(protoStart-1-margin):protoEnd+margin]
 		else :
 			tmpSeq = protoSeq[protoEnd-1-margin:protoStart+margin]
-			protospacer = Seq(str(tmpSeq), generic_dna).reverse_complement()			
+			protospacer = Seq(str(tmpSeq)).reverse_complement()			
 		print (protospacer)
 
 		outputFile.write(">" + query + "_" + dict['Accession'] + " >>" + dict['Accession_Desc'] + "\n")
 		if args.rev_comp :
-			protospacer = Seq(str(protospacer), generic_dna).reverse_complement()
+			protospacer = Seq(str(protospacer)).reverse_complement()
 		outputFile.write(str(protospacer) + "\n")
 
 		upFlank = protospacer[0:10]
