@@ -17,6 +17,12 @@ source ~/.bash_profile
 ```
 
 ---
+
+# Determining CRISPR Locus Orientation
+Before using *append_spacers.sh* and *blast_parser.py* to determine PAM sequences, spacers from all loci being analyzed should be placed in the same orientation. Orientation can be determined by aligning repeats of a single locus to determine the terminal repeat, which will typically have one or more SNPs compared to other repeats in the array. The terminal repeat is at the 3' end of the CRISPR array.
+
+For more information on CRISPR locus orientation, take a look at **Protocol 3.3** and **Figure 3C** in [Predicting and visualizing features of CRISPR-Cas systems](https://www.sciencedirect.com/science/article/pii/S0076687918304300) by Nethery and Barrangou 2019.
+
 # Scripts
 ### < append_spacers.sh >
 A simple script that locates all files with the extension '*_spacers.fa*' in the **current directory**, then appends them into a single FASTA file, named *spacers_concat.fasta*.
@@ -60,7 +66,7 @@ Parses returned BLAST hits into CSV format, and assists in PAM prediction by fet
 
 **Important Note:** when using this script to predict the PAM sequence (-p option), we use Entrez to access genomes via Accession number. Please read [NCBI's Entrez user requirements](https://www.ncbi.nlm.nih.gov/books/NBK25497/#chapter2.Usage_Guidelines_and_Requiremen) prior to use. At minimum, please modify **blast_parser.py at line 155** with the addition of your **email address**. NCBI will attempt to contact you before killing (or banning) your jobs in cases of overuse or abuse. Otherwise, your job(s) could be killed without warning. Providing a fake email address is seriously frowned upon, so please don't do it. Other recommended usage parameters: For any series of more than 100 requests, please do this on the weekend or outside peak times in the USA.  
 
-**Additionally:** this script does not take locus orientation into account, so manual verification that all spacers are in the **same orientation** is essential. 
+**Additionally:** this script does not take locus orientation into account, so manual verification that all spacers are in the **same orientation** is essential.
 
 #### Usage
 
